@@ -1,0 +1,25 @@
+version: '3'
+services:
+  db:
+    image: postgres:13.1-alpine
+    platform: linux/amd64
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: redis_cache   # DB yoksa otomatik yaratır
+    ports:
+      - 5433:5432
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command:
+      - "postgres"
+      - "-c"
+      - "wal_level=logical"
+
+  adminer:
+    image: adminer
+    platform: linux/amd64
+    restart: always
+    ports:
+      - 8001:8080  # Adminer'a disaridan erisim saglar.
